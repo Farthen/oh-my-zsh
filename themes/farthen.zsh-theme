@@ -76,14 +76,14 @@ schedprompt() {
   # Test that zle is running before calling the widget (recommended
   # to avoid error messages).
   # Otherwise it updates on entry to zle, so there's no loss.
-  #zle && zle reset-prompt
-  zle && zle zle-update
+  zle && zle reset-prompt
+  #zle && zle zle-update
 
   # This ensures we're not too far off the start of the minute
   sched +5 schedprompt
 }
 
-#schedprompt
+schedprompt
 
 # Stolen from https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/zsh-syntax-highlighting.zsh
 # Rebind all ZLE widgets to make them invoke zle-update.
