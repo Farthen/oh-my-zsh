@@ -12,7 +12,8 @@
 
 
 zle-update() {
-  if [[ ${BUFFER// /} == "sudo"* ]]; then
+  BUF=`sed -e 's/^[[:space:]]*//' <<< "${BUFFER}"`
+  if [[ ${BUF} == "sudo "* || ${BUF} == "su -c "* ]]; then
     if [[ $highlight != "green" ]]; then
       highlight="green"
       setprompt()
