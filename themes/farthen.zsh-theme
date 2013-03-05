@@ -10,6 +10,14 @@
 # Neither the name of the zsh-syntax-highlighting contributors nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
+  SESSION_TYPE="remote/ssh"
+# many other tests omitted
+else
+  case $(ps -o comm= -p $PPID) in
+    sshd|*/sshd) SESSION_TYPE="remote/ssh";;
+  esac
+fi
 
 zle-update() {
   BUF=`sed -e 's/^[[:space:]]*//' <<< "${BUFFER}"`
@@ -33,7 +41,11 @@ zle -N zle-update
 
 function setpromptcolor {
   if [ $EUID -ne 0 ]; then
-    highlight="red"
+    if [[ $SESSION_TYPE == "remote/ssh" ]]; then
+      highlight="magenta"
+    else
+      highlight="red"
+    fi
   else
     highlight="green"
   fi
@@ -84,7 +96,7 @@ schedprompt() {
   sched +5 schedprompt
 }
 
-schedprompt
+#schedprompt
 
 # Stolen from https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/zsh-syntax-highlighting.zsh
 # Rebind all ZLE widgets to make them invoke zle-update.
@@ -126,3 +138,15 @@ _bindupdate()
 }
 
 _bindupdate
+
+
+## keyboard vodoo
+function prepend-sudo {
+  if [[ $BUFFER != "sudo "* ]]; then
+    BUFFER="sudo $BUFFER"; CURSOR+=5
+  fi
+}
+zle -N prepend-sudo
+[[ -n "$keyinfo[Control]" ]] && \
+  bindkey "$keyinfo[Control]S" prepend-sudo
+
