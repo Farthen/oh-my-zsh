@@ -69,7 +69,7 @@ RPROMPT=$'%T'
 
 ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg[$highlight]%}[%{$fg_bold[white]%}"
 ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}%{$fg[$highlight]%}] "
-ZSH_THEME_GIT_PROMPT_DIRTY=" %{$fg[$highlight]%} %{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[$highlight]%}*%{$reset_color%}"
 }
 
 setprompt
