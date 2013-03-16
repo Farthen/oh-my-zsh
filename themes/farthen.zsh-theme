@@ -65,7 +65,7 @@ PROMPT=$'%{$fg[$highlight]%}┌[%{$fg_bold[white]%}%n%{$reset_color%}%{$fg[$high
 %{$fg[$highlight]%}└[%{$fg_bold[white]%}%~%{$reset_color%}%{$fg[$highlight]%}]>%{$reset_color%} '
 PS2=$' %{$fg[$highlight]%}|>%{$reset_color%} '
 
-RPROMPT=$'%T'
+#RPROMPT=$'%T'
 
 ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg[$highlight]%}[%{$fg_bold[white]%}"
 ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}%{$fg[$highlight]%}] "
