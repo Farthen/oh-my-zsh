@@ -1,0 +1,1 @@
+~/Dropbox/Sync/AppData/dotfiles/.zshrc
