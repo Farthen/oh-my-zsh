@@ -68,13 +68,6 @@ function _setprompt {
 %{$fg[$highlight]%}└[%{$fg_bold[white]%}%~%{$reset_color%}%{$fg[$highlight]%}]>%{$reset_color%} '
 	PS2=$' %{$fg[$highlight]%}|>%{$reset_color%} '
 
-<<<<<<< HEAD
-	#RPROMPT=$'%T'
-	RPROMPT=''
-=======
-#RPROMPT=$'%T'
->>>>>>> 1f3de8be80463f5533e56caef444930d3440725c
-
 	ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg[$highlight]%}[%{$fg_bold[white]%}"
 	ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}%{$fg[$highlight]%}] "
 	ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[$highlight]%}*%{$reset_color%}"
