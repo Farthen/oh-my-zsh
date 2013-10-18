@@ -1,4 +1,5 @@
 # Check for updates on initial load...
+DISABLE_AUTO_UPDATE=true
 if [ "$DISABLE_AUTO_UPDATE" != "true" ]
 then
   /usr/bin/env ZSH=$ZSH zsh $ZSH/tools/check_for_upgrade.sh
