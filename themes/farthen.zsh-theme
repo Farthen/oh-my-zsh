@@ -10,6 +10,8 @@
 # Neither the name of the zsh-syntax-highlighting contributors nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+DISABLE_AUTO_UPDATE=true
+
 if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
   SESSION_TYPE="remote/ssh"
 # many other tests omitted
@@ -24,14 +26,14 @@ zle-update() {
   if [[ ${BUF} == "sudo "* || ${BUF} == "su -c "* ]]; then
     if [[ $highlight != "green" ]]; then
       highlight="green"
-      setprompt()
+      _setprompt()
       zle && zle reset-prompt
     fi
   else
     oldcolor="$highlight"
-    setpromptcolor
+    _setpromptcolor
     if [[ $highlight != $oldcolor ]]; then
-      setprompt()
+      _setprompt()
       zle && zle reset-prompt
     fi
   fi
@@ -39,7 +41,7 @@ zle-update() {
 
 zle -N zle-update
 
-function setpromptcolor {
+function _setpromptcolor {
   if [ $EUID -ne 0 ]; then
     if [[ $SESSION_TYPE == "remote/ssh" ]]; then
       highlight="magenta"
@@ -51,32 +53,34 @@ function setpromptcolor {
   fi
 }
 
-setpromptcolor
+_setpromptcolor
 
 # precmd is called just before the prompt is printed
 function update_precmd() {
-    setpromptcolor
+    hash -rf
+    _setpromptcolor
 }
 add-zsh-hook precmd update_precmd
 
-function setprompt {
-zle && zle zle-update
-PROMPT=$'%{$fg[$highlight]%}┌[%{$fg_bold[white]%}%n%{$reset_color%}%{$fg[$highlight]%}@%{$fg_bold[white]%}%m%{$reset_color%}%{$fg[$highlight]%}] [%{$fg_bold[white]%}/dev/%y%{$reset_color%}%{$fg[$highlight]%}] %{$(git_prompt_info)%}%(?,%{$fg[$highlight]%}[%{$fg_bold[white]%}%?%{$reset_color%}%{$fg[$highlight]%}] $fg[red]<3,%{$fg[$highlight]%}[%{$fg_bold[white]%}%?%{$reset_color%}%{$fg[$highlight]%}] $fg[red]</3)%{$fg[110]%}%{$reset_color%}
+function _setprompt {
+	zle && zle zle-update
+	PROMPT=$'%{$fg[$highlight]%}┌[%{$fg_bold[white]%}%n%{$reset_color%}%{$fg[$highlight]%}@%{$fg_bold[white]%}%m%{$reset_color%}%{$fg[$highlight]%}] [%{$fg_bold[white]%}/dev/%y%{$reset_color%}%{$fg[$highlight]%}] %{$(git_prompt_info)%}%(?,%{$fg[$highlight]%}[%{$fg_bold[white]%}%?%{$reset_color%}%{$fg[$highlight]%}] $fg[red]<3,%{$fg[$highlight]%}[%{$fg_bold[white]%}%?%{$reset_color%}%{$fg[$highlight]%}] $fg[red]</3)%{$fg[110]%}%{$reset_color%}
 %{$fg[$highlight]%}└[%{$fg_bold[white]%}%~%{$reset_color%}%{$fg[$highlight]%}]>%{$reset_color%} '
-PS2=$' %{$fg[$highlight]%}|>%{$reset_color%} '
+	PS2=$' %{$fg[$highlight]%}|>%{$reset_color%} '
 
-RPROMPT=$'%T'
+	#RPROMPT=$'%T'
+	RPROMPT=''
 
-ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg[$highlight]%}[%{$fg_bold[white]%}"
-ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}%{$fg[$highlight]%}] "
-ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[$highlight]%}*%{$reset_color%}"
+	ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg[$highlight]%}[%{$fg_bold[white]%}"
+	ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}%{$fg[$highlight]%}] "
+	ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[$highlight]%}*%{$reset_color%}"
 }
 
-setprompt
+_setprompt
 
 zle && zle zle-update
 
-schedprompt() {
+_schedprompt() {
   emulate -L zsh
   zmodload -i zsh/sched
 
@@ -138,7 +142,6 @@ _bindupdate()
 }
 
 _bindupdate
-
 
 ## keyboard vodoo
 function prepend-sudo {
