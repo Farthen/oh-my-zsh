@@ -64,9 +64,9 @@ add-zsh-hook precmd update_precmd
 
 function _setprompt {
 	zle && zle zle-update
-	PROMPT=$'%{$fg[$highlight]%}┌[%{$fg_bold[white]%}%n%{$reset_color%}%{$fg[$highlight]%}@%{$fg_bold[white]%}%m%{$reset_color%}%{$fg[$highlight]%}] [%{$fg_bold[white]%}/dev/%y%{$reset_color%}%{$fg[$highlight]%}] %{$(git_prompt_info)%}%(?,%{$fg[$highlight]%}[%{$fg_bold[white]%}%?%{$reset_color%}%{$fg[$highlight]%}] $fg[red]<3,%{$fg[$highlight]%}[%{$fg_bold[white]%}%?%{$reset_color%}%{$fg[$highlight]%}] $fg[red]</3)%{$fg[110]%}%{$reset_color%}
-%{$fg[$highlight]%}└[%{$fg_bold[white]%}%~%{$reset_color%}%{$fg[$highlight]%}]>%{$reset_color%} '
-	PS2=$' %{$fg[$highlight]%}|>%{$reset_color%} '
+	PROMPT=$'%F{$highlight}┌[%B%F{white}%n%F{$highlight}@%F{white}%m%b%F{$highlight}] [%B%F{white}/dev/%y%b%F{$highlight}] $(git_prompt_info)%(?,%F{$highlight}[%B%F{white}%?%b%f%F{$highlight}] %F{red}<3,%F{$highlight}[%B%F{white}%?%b%F{$highlight}] %F{red}</3)
+%F{$highlight}└[%B%F{white}%~%b%F{$highlight}%{]>%}%b%f '
+	PS2=$' %F{$highlight}|>%f '
 
 	ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg[$highlight]%}[%{$fg_bold[white]%}"
 	ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}%{$fg[$highlight]%}] "
