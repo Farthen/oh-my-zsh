@@ -65,7 +65,7 @@ add-zsh-hook precmd update_precmd
 function _setprompt {
 	zle && zle zle-update
 	PROMPT=$'%F{$highlight}┌[%B%F{white}%n%F{$highlight}@%F{white}%m%b%F{$highlight}] [%B%F{white}/dev/%y%b%F{$highlight}] $(git_prompt_info)%(?,%F{$highlight}[%B%F{white}%?%b%f%F{$highlight}] %F{red}<3,%F{$highlight}[%B%F{white}%?%b%F{$highlight}] %F{red}</3)
-%F{$highlight}└[%B%F{white}%~%b%F{$highlight}%{]>%}%b%f '
+%F{$highlight}└[%B%F{white}%~%b%F{$highlight}]>%b%f '
 	PS2=$' %F{$highlight}|>%f '
 
 	ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg[$highlight]%}[%{$fg_bold[white]%}"
