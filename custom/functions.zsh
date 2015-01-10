@@ -19,3 +19,14 @@ function finderpath() {
 function cdf() {
     cd "$(finderpath)"
 }
+
+urlencode() {
+    setopt localoptions extendedglob
+    input=( ${(s::)*} )
+    print ${(j::)input/(#b)([^A-Za-z0-9_.\!~*\'\(\)-])/%${(l:2::0:)$(([##16]#match))}}
+}
+
+function dash() {
+    search_string=$(urlencode $*)
+    open dash://$search_string
+}
